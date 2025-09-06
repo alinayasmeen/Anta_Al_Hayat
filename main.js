@@ -1,4 +1,4 @@
- // Loading animation
+// Loading animation
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loadingOverlay').style.opacity = '0';
@@ -71,88 +71,23 @@
         // Enhanced form submission
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Get form data
+
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
-            
-            // Advanced form validation
+
+            // Basic validation
             if (!data.name || !data.email || !data.service || !data.message) {
-                alert('Please fill in all required fields.');
+                alert('Please fill in all fields.');
                 return;
             }
 
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(data.email)) {
-                alert('Please enter a valid email address.');
-                return;
-            }
-            
-            // Animate submit button
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; gap: 10px;"><div class="loader" style="width: 20px; height: 20px; border: 2px solid rgba(10, 10, 15, 0.3); border-top: 2px solid #0a0a0f; margin: 0;"></div>Processing...</div>';
-            submitBtn.disabled = true;
-            
-            // Simulate advanced processing
-            setTimeout(() => {
-                // Create WhatsApp message
-                const message = `🤖 *AI Project Inquiry from ${data.name}*
+            // WhatsApp message format
+            const phone = '923151080765'; // WhatsApp requires country code (Pakistan: 92)
+            const text = `Name: ${data.name}%0AEmail: ${data.email}%0AService: ${data.service}%0AMessage: ${data.message}`;
+            const whatsappUrl = `https://wa.me/${phone}?text=${text}`;
 
-📧 *Email:* ${data.email}
-🏢 *Company:* ${data.company || 'Not specified'}
-🎯 *Service:* ${data.service}
-💰 *Budget:* ${data.budget || 'Not specified'}
-
-📋 *Project Details:*
-${data.message}
-
----
-Sent via أنت الحياة AI Solutions Website`;
-
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappURL = `https://wa.me/1234567890?text=${encodedMessage}`;
-                
-                // Success animation
-                submitBtn.innerHTML = '✓ Redirecting to WhatsApp...';
-                submitBtn.style.background = 'linear-gradient(135deg, #00ff80, #00cc60)';
-                
-                setTimeout(() => {
-                    window.open(whatsappURL, '_blank');
-                    this.reset();
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                    submitBtn.style.background = 'linear-gradient(135deg, #00ffff, #0080ff)';
-                    
-                    // Show success message
-                    const successMsg = document.createElement('div');
-                    successMsg.style.cssText = `
-                        position: fixed;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        background: rgba(0, 255, 128, 0.1);
-                        backdrop-filter: blur(20px);
-                        border: 1px solid rgba(0, 255, 128, 0.3);
-                        color: #00ff80;
-                        padding: 2rem;
-                        border-radius: 15px;
-                        z-index: 10000;
-                        text-align: center;
-                        animation: fadeIn 0.3s ease;
-                    `;
-                    successMsg.innerHTML = `
-                        <h3 style="margin-bottom: 1rem;">✅ Message Sent Successfully!</h3>
-                        <p>We'll review your AI project requirements and get back to you within 2 hours.</p>
-                    `;
-                    document.body.appendChild(successMsg);
-                    
-                    setTimeout(() => {
-                        successMsg.remove();
-                    }, 4000);
-                }, 1500);
-            }, 2000);
+            // Redirect to WhatsApp
+            window.open(whatsappUrl, '_blank');
         });
 
         // Advanced particle system
